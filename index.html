@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advertisements</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .card {
+      margin-bottom: 20px;
+      border: none;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-footer {
+      background-color: #f8f9fa;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container mt-5">
+    <h2 class="mb-4">Advertisement List</h2>
+
+    <!-- Filter component -->
+    <div class="mb-3">
+      <label for="filterTitle">Filter by Title:</label>
+      <input type="text" class="form-control" id="filterTitle" placeholder="Enter title">
+    </div>
+
+    <div id="advertisements" class="row">
+      <!-- Advertisements will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- Optional: Add your own custom scripts here -->
+  <script>
+    // Advertisement data
+    const ads = [
+      { title: 'Ad 1', description: 'This is the first advertisement.', image: 'https://via.placeholder.com/150', contact: 'sobia@gmail.com' },
+      { title: 'Ad 2', description: 'This is the second advertisement.', image: 'https://via.placeholder.com/150', contact: 'sadia@hotmail.com' },
+      { title: 'Ad 3', description: 'This is the third advertisement.', image: 'https://via.placeholder.com/150', contact: 'saima@example.com' },
+      { title: 'Ad 4', description: 'This is the fourth advertisement.', image: 'https://via.placeholder.com/150', contact: 'hafsa1@example.com' },
+      { title: 'Ad 5', description: 'This is the fifth advertisement.', image: 'https://via.placeholder.com/150', contact: 'hunain@example.com' },
+      { title: 'Ad 6', description: 'This is the sixth advertisement.', image: 'https://via.placeholder.com/150', contact: 'asim6@example.com' }
+    ];
+
+    // Function to create an advertisement card
+    function createAdCard(ad) {
+      const col = document.createElement('div');
+      col.className = 'card mb-4 col-md-4';
+
+      const cardImg = document.createElement('img');
+      cardImg.className = 'card-img-top';
+      cardImg.src = ad.image;
+      cardImg.alt = ad.title;
+
+      const cardBody = document.createElement('div');
+      cardBody.className = 'card-body';
+
+      const cardTitle = document.createElement('h5');
+      cardTitle.className = 'card-title';
+      cardTitle.innerText = ad.title;
+
+      const cardText = document.createElement('p');
+      cardText.className = 'card-text';
+      cardText.innerText = ad.description;
+
+      const cardContact = document.createElement('p');
+      cardContact.className = 'card-text';
+      cardContact.innerHTML = `Contact: <span class="contact-info" onclick="toggleContactInfo(this)" data-contact="${ad.contact}">***</span>`;
+
+      const cardFooter = document.createElement('div');
+      cardFooter.className = 'card-footer text-center';
+
+      const detailsButton = document.createElement('button');
+      detailsButton.className = 'btn btn-info btn-block';
+      detailsButton.innerText = 'Details';
+      detailsButton.onclick = () => alert(`Contact: ${ad.contact}`);
+
+      cardBody.appendChild(cardTitle);
+      cardBody.appendChild(cardText);
+      cardBody.appendChild(cardContact);
+      cardFooter.appendChild(detailsButton);
+
+      col.appendChild(cardImg);
+      col.appendChild(cardBody);
+      col.appendChild(cardFooter);
+
+      return col;
+    }
+
+    // Function to render advertisements
+    function renderAds(filter = '') {
+      const adContainer = document.getElementById('advertisements');
+      adContainer.innerHTML = '';
+      ads
+        .filter(ad => ad.title.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(ad => adContainer.appendChild(createAdCard(ad)));
+    }
+
+    // Function to toggle contact information
+    function toggleContactInfo(element) {
+      if (element.innerText === '***') {
+        element.innerText = element.dataset.contact;
+      } else {
+        element.innerText = '***';
+      }
+    }
+
+    // Event listener for filter input
+    document.getElementById('filterTitle').addEventListener('input', (event) => {
+      renderAds(event.target.value);
+    });
+
+    // Initial render of advertisements
+    renderAds();
+  </script>
+
+</body>
+
+</html>
